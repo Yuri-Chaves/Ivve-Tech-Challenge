@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
-import { GetRandomFactService } from '../../services';
 import { TLang } from '../../interfaces';
+import { GetRandomFactService } from '../../services';
 
 class GetRandomFactController {
   async handle(req: Request, res: Response) {
-    const lang = req.query.lang as TLang;
+    const lang = req.query.lang || 'en'
     const getRandomFactService = new GetRandomFactService();
 
-    const response = await getRandomFactService.execute(lang, res);
+    const response = await getRandomFactService.execute(lang as TLang, res);
 
     return res.json(response);
   }
