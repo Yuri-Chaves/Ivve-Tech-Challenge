@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { GetFactByCategoryController, GetRandomFactController } from "./controllers";
+import { GetFactByCategoryController, GetFactByTextController, GetRandomFactController } from "./controllers";
 
 const router = Router();
 
@@ -10,5 +10,7 @@ router.get('/', (req, res) => {
 router.get('/random', new GetRandomFactController().handle);
 
 router.get('/random/category', new GetFactByCategoryController().handle)
+
+router.get('/search', new GetFactByTextController().handle)
 
 export { router };

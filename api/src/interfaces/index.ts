@@ -8,6 +8,11 @@ export interface ChuckFactResponse {
   value: string
 }
 
+export interface SearchChuckFactResponse {
+  total: number
+  result: Array<ChuckFactResponse> | []
+}
+
 export type TLang =
   | 'en'
   | 'es'
