@@ -1,0 +1,13 @@
+# API
+api/node_modules
+api/.env
+
+api/tmp
+
+# Yarn
+api/.yarn/*
+api/!.yarn/patches
+api/!.yarn/plugins
+api/!.yarn/releases
+api/!.yarn/sdks
+api/!.yarn/versions
