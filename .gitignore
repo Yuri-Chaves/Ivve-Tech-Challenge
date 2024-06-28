@@ -11,3 +11,7 @@ api/!.yarn/plugins
 api/!.yarn/releases
 api/!.yarn/sdks
 api/!.yarn/versions
+
+# Web
+# Yarn
+web/.yarn/cache
