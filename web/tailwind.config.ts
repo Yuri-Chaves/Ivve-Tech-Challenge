@@ -12,10 +12,17 @@ const config = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
+      padding: "15px",
+    },
+    screens: {
+      xsm: '380px',
+      sm: '640px',
+      md: '768px',
+      lg: '960px',
+      xl: '1280px',
+    },
+    fontFamily: {
+      primary: "var(--font-roboto)",
     },
     extend: {
       keyframes: {
