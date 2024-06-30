@@ -1,3 +1,5 @@
+import { TLanguage } from "@/services"
+
 type TCategory =
 | "animal"
 | "career"
@@ -23,11 +25,7 @@ interface ChuckFactProps {
   id: string
   updated_at: string
   url: string
-  value: {
-    en: string
-    es: string
-    pt: string
-  }
+  value: Record<TLanguage, string>
 }
 
 export const chuckIvveApiMock:ChuckFactProps = {
@@ -38,8 +36,8 @@ export const chuckIvveApiMock:ChuckFactProps = {
   updated_at: "2020-01-05 13:42:26.447675",
   url: "https://api.chucknorris.io/jokes/Wnf-6fa0RQyT8DCXjDd83A",
   value: {
-    en: "A Chuck Norris fact a day keeps his roundhouse kicks away.",
+    us: "A Chuck Norris fact a day keeps his roundhouse kicks away.",
     es: "Un hecho de Chuck Norris al día mantiene alejados sus patadas giratorias.",
-    pt: "Um fato de Chuck Norris por dia mantém seus chutes redondos afastados."
+    br: "Um fato de Chuck Norris por dia mantém seus chutes redondos afastados."
   }
 }

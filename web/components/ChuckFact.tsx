@@ -1,3 +1,5 @@
+"use client"
+
 import { AvatarImage } from "@radix-ui/react-avatar"
 import Paper from "./Paper"
 import { Avatar, AvatarFallback } from "./ui/avatar"
@@ -28,12 +30,15 @@ interface ChuckFactProps {
   id: string
   updated_at: string
   url: string
-  value: string
+  value: Record<TLanguage, string>
 }
 
 import { IoCalendarNumber } from 'react-icons/io5' 
+import { TLanguage, useSiteLanguage } from "@/services"
 
 export default function ChuckFact(fact: ChuckFactProps) {
+  const { language } = useSiteLanguage()
+
   return (
     <Paper>
       <div className="h-full relative">
@@ -48,7 +53,7 @@ export default function ChuckFact(fact: ChuckFactProps) {
             ))}
           </div>
         </div>
-        <p>{fact.value}</p>
+        <p>{fact.value[language]}</p>
         <div className="flex flex-row items-center justify-end gap-1 absolute bottom-0 right-0">
           <IoCalendarNumber />
           <p>{new Date(fact.created_at).toLocaleDateString()}</p>
