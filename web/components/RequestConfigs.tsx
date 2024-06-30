@@ -1,34 +1,37 @@
 "use client"
 
 import { useSiteLanguage } from "@/services"
-import { ScrollArea } from "./ui/scroll-area"
-import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
-
-
+import ChuckCategories from "./ChuckCategories"
+import { ResizablePanel, ResizablePanelGroup } from "./ui/resizable"
 
 export default function RequestConfigs() {
   const { language, panelProps } = useSiteLanguage()
   return (
     <div className="flex flex-col bg-white rounded-lg shadow-lg p-4 text-zinc-700 gap-2">
-      <h2 className="text-2xl font-bold text-orange-500">{panelProps.panelTitle[language]}</h2>
-      <ScrollArea className="h-48">
-        <ToggleGroup type="single" className="flex flex-col gap-2" defaultValue="none">
-          {panelProps.categories[language].map((category) => (
-            <ToggleGroupItem
-              key={category.label}
-              value={category.value}
-              className="flex flex-row items-center w-full justify-start gap-1"
-            >
-              {category.icon}
-              <p>{category.label}</p>
-            </ToggleGroupItem>
-          ))}
-        </ToggleGroup>
-      </ScrollArea>
-      <Input type="search" placeholder={panelProps.inputPlaceholder[language]} />
-      <Button className="capitalize">{panelProps.buttonTitle[language]}</Button>
+      <div className="hidden md:block">
+        <h2 className="text-2xl font-bold text-orange-500">{panelProps.panelTitle[language]}</h2>
+        <ChuckCategories />
+        <div className="flex flex-col gap-1">
+          <Input type="search" placeholder={panelProps.inputPlaceholder[language]} />
+          <Button className="capitalize">{panelProps.buttonTitle[language]}</Button>
+        </div>
+      </div>
+      <div className="md:hidden block">
+        <ResizablePanelGroup direction="horizontal" className="w-full gap-1">
+          <ResizablePanel defaultSize={50}>
+            <ChuckCategories />
+          </ResizablePanel>
+          <ResizablePanel defaultSize={50}>
+            <div className="flex flex-col gap-1">
+              <h2 className="text-2xl font-bold text-right text-orange-500">{panelProps.panelTitle[language]}</h2>
+              <Input type="search" placeholder={panelProps.inputPlaceholder[language]} />
+              <Button className="capitalize">{panelProps.buttonTitle[language]}</Button>
+            </div>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </div>
     </div>
   )
 }
