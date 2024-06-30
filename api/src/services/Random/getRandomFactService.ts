@@ -5,36 +5,29 @@ import { ChuckFactResponse, TLang } from "../../interfaces";
 import { TranslateUtils } from "../../utils";
 
 class GetRandomFactService {
-  async execute(lang: TLang, res: Response) {
-    if ( lang !== 'en' && lang !== 'es' && lang !== 'pt') {
-      return res.status(405).json({
-        message: 'Language not supported',
-      });
-    }
+  async execute(res: Response) {
     try {
       const response = await chuckJokes.get<ChuckFactResponse>('/random');
       const fact = response.data;
-      if (lang === 'en') {
-        return fact
-      } else {
-        try {
-          const translation = await TranslateUtils.getTranslation('en', lang, fact.value)
-        return {
-          ...fact,
-          value: translation,
-        }
-        } catch (error) {
-          console.log(JSON.stringify(error, undefined, 2));
-          return res.status(502).json({
-            message: 'Translation not supported',
-          })
+      const esValue = await TranslateUtils.getTranslation('en', 'es', fact.value)
+      const ptValue = await TranslateUtils.getTranslation('en', 'pt', fact.value)
+      return {
+        ...fact,
+        value: {
+          en: fact.value,
+          es: esValue,
+          pt: ptValue,
         }
       }
     } catch (err) {
       const error = err as AxiosError
       console.log(JSON.stringify(error, null, 2));
       return res.status(502).json({
-        message: 'Chuck Norris API is down',
+        message: {
+          en: 'Chuck Norris API is down',
+          es: 'La API de Chuck Norris está caída',
+          pt: 'A API de Chuck Norris está caída',
+        },
       })
     }
   }

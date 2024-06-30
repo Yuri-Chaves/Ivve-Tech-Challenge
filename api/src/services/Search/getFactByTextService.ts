@@ -1,40 +1,44 @@
 import { AxiosError } from 'axios';
 import { Response } from 'express';
 import { chuckJokes } from '../../instances/chuckJokes';
-import { SearchChuckFactResponse, TLang } from '../../interfaces';
+import { SearchChuckFactResponse } from '../../interfaces';
 import { TranslateUtils } from '../../utils';
 
 class GetFactByTextService {
-  async execute(text: string, lang: TLang, res: Response) {
-    if (lang !== 'en' && lang !== 'es' && lang !== 'pt') {
-      return res.status(405).json({
-        message: 'Language not supported',
-      });
-    }
+  async execute(text: string, res: Response) {
     try {
       const englishSearch = await TranslateUtils.getTranslation('auto', 'en', text)
       try {
         const chuckJokesApi = await chuckJokes.get<SearchChuckFactResponse>(`/search?query=${englishSearch}`);
-  
-        if (lang === 'en') {
-          return chuckJokesApi.data
-        } else {
-          const EnglishChuckFacts = chuckJokesApi.data.result
-          try {
-            const translationPromises = EnglishChuckFacts.map(async (item) => {
-              const translation = await TranslateUtils.getTranslation('en', lang, item.value)
-              return {...item, value: translation }
-            })
+        const ChuckFacts = chuckJokesApi.data.result
+
+        try {
+          const factsPromises = ChuckFacts.map(async (item) => {
+            const esValue = await TranslateUtils.getTranslation('en', 'es', item.value)
+            const ptValue = await TranslateUtils.getTranslation('en', 'pt', item.value)
+
             return {
-              total: chuckJokesApi.data.total,
-              result: await Promise.all(translationPromises),
+              ...item,
+              value: {
+                en: item.value,
+                es: esValue,
+                pt: ptValue,
+              } 
             }
-          } catch (error) {
-            console.log(JSON.stringify(error, undefined, 2));
-            return res.status(502).json({
-              message: 'Translation not supported',
-            })
+          })
+          return {
+            total: chuckJokesApi.data.total,
+            result: await Promise.all(factsPromises),
           }
+        } catch (error) {
+          console.log(JSON.stringify(error, undefined, 2));
+          return res.status(502).json({
+            message: {
+              en: 'Translation not supported',
+              es: 'La traducción no está soportada',
+              pt: 'A tradução não é suportada',
+            },
+          })
         }
       } catch (err) {
         const error = err as AxiosError
@@ -43,7 +47,11 @@ class GetFactByTextService {
     } catch (error) {
       console.log(JSON.stringify(error, undefined, 2));
       return res.status(502).json({
-        message: 'Unable to translate search',
+        message: {
+          en: 'Chuck Norris API is down',
+          es: 'La API de Chuck Norris está caída',
+          pt: 'A API de Chuck Norris está caída',
+        },
       })
     }
   }
