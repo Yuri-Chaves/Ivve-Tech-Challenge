@@ -8,7 +8,7 @@ class GetFactByCategoryController {
     const lang = req.query.lang || 'en'
     const getFactByCategoryService = new GetFactByCategoryService();
 
-    const response = await getFactByCategoryService.execute(category as TCategory, lang as TLang, res);
+    const response = await getFactByCategoryService.execute(category as TCategory, res);
 
     return res.json(response);
   }
