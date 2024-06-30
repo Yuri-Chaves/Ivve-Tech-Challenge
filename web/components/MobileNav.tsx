@@ -3,14 +3,15 @@
 import { CiMenuFries } from 'react-icons/ci'
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 import Chuck from './Chuck';
-import { links } from './Nav';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-
-const imgHeight = 24;
+import { useSiteLanguage } from '@/services';
+import Flags from './Flags';
 
 export default function MobileNav() {
   const pathname = usePathname();
+  const { links, language } = useSiteLanguage();
+
   return (
     <Sheet>
       <SheetTrigger>
@@ -18,6 +19,7 @@ export default function MobileNav() {
       </SheetTrigger>
       <SheetContent className='flex flex-col gap-4'>
         <Chuck height={24} color="#ea580c " />
+        <Flags />
         <nav className='mt-4 flex flex-col gap-3'>
         {links.map((link) => (
         <Link
@@ -28,7 +30,7 @@ export default function MobileNav() {
             } capitalize font-semibold transition-all ${
               link.href !== pathname && "hover:text-orange-600"
             }`}>
-          {link.name}
+          {link.label[language]}
         </Link>
       ))}
         </nav>

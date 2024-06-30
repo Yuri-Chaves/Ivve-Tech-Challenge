@@ -1,21 +1,13 @@
 "use client";
 
+import { useSiteLanguage } from "@/services";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export const links = [
-  {
-    name: "facts",
-    href: "/",
-  },
-  {
-    name: "about",
-    href: "/about",
-  },
-]
-
 export default function Nav() {
   const pathname = usePathname();
+  const { links, language } = useSiteLanguage();
+
   return (
     <nav className="flex gap-6">
       {links.map((link) => (
@@ -25,7 +17,7 @@ export default function Nav() {
           className={`text-white ${
             link.href === pathname && "border-b-2 border-b-white"
             } capitalize font-semibold hover:text-orange-600 transition-all`}>
-          {link.name}
+          {link.label[language]}
         </Link>
       ))}
     </nav>
