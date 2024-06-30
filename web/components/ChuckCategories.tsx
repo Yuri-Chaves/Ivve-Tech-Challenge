@@ -1,6 +1,7 @@
-import { TLanguage, useSiteLanguage } from "@/services";
+import { TCategory, TLanguage, useSiteLanguage } from "@/services";
 import { ScrollArea } from "./ui/scroll-area";
 import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
+import { useFactsService, useFactsServiceManager } from "@/services";
 
 const categoryScrollTitle: Record<TLanguage, string> = {
   br: 'Categorias',
@@ -10,6 +11,8 @@ const categoryScrollTitle: Record<TLanguage, string> = {
 
 export default function ChuckCategories() {
   const { language, panelProps } = useSiteLanguage()
+  const { category } = useFactsService()
+  const { setCategory } = useFactsServiceManager()
 
   const sortedCategories = panelProps.categories.slice(1).sort((a, b) => {
     const aLabel = a.label[language].toLocaleLowerCase()
@@ -26,7 +29,15 @@ export default function ChuckCategories() {
     <div className="flex flex-col">
       <p>{categoryScrollTitle[language]}</p>
       <ScrollArea className="h-36 md:h-48">
-        <ToggleGroup type="single" className="flex flex-col gap-2" defaultValue="none">
+        <ToggleGroup
+          type="single"
+          className="flex flex-col gap-2"
+          defaultValue="none"
+          value={category}
+          onValueChange={(value) => {
+            setCategory(value as TCategory)
+          }}
+        >
           {shownCategories.map((category) => (
             <ToggleGroupItem
               key={category.value}
