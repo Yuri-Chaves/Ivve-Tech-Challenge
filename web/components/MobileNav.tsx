@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSiteLanguage } from '@/services';
 import Flags from './Flags';
+import Image from 'next/image';
 
 export default function MobileNav() {
   const pathname = usePathname();
@@ -18,7 +19,12 @@ export default function MobileNav() {
         <CiMenuFries className='text-white text-[24px] hover:text-orange-600 transition-all' />
       </SheetTrigger>
       <SheetContent className='flex flex-col gap-4'>
-        <Chuck height={24} color="#ea580c " />
+        <div className="flex sm:hidden">
+          <Image src={'/chuck_face.png'} alt='chuck' height={24} width={24} />
+        </div> 
+        <div className="hidden sm:flex">
+          <Chuck height={24} color="#ea580c " />
+        </div>
         <Flags />
         <nav className='mt-4 flex flex-col gap-3'>
         {links.map((link) => (
