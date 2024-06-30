@@ -13,7 +13,11 @@ type LinkMenu =  {
 }
 
 type TPanelCategory = {
-  label: string
+  label: {
+    br: string
+    es: string
+    us: string
+  }
   value: 
   | "animal"
   | "career"
@@ -51,11 +55,7 @@ export type PanelProps = {
     es: 'Buscar hecho',
     us: 'Search fact'
   },
-  categories: {
-    br: Array<TPanelCategory>
-    es: Array<TPanelCategory>
-    us: Array<TPanelCategory>
-  }
+  categories: Array<TPanelCategory>
 }
 
 export interface SiteLanguageService {

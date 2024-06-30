@@ -1,3 +1,5 @@
+import { TLanguage } from "@/services"
+
 type TCategory =
 | "animal"
 | "career"
@@ -23,15 +25,19 @@ interface ChuckFactProps {
   id: string
   updated_at: string
   url: string
-  value: string
+  value: Record<TLanguage, string>
 }
 
-export const chuckIvveApiPT:ChuckFactProps = {
+export const chuckIvveApiMock:ChuckFactProps = {
   categories: ["animal" , "career", "celebrity"],
   created_at: "2020-01-05 13:42:26.447675",
   icon_url: "https://api.chucknorris.io/img/avatar/chuck-norris.png",
   id: "Wnf-6fa0RQyT8DCXjDd83A",
   updated_at: "2020-01-05 13:42:26.447675",
   url: "https://api.chucknorris.io/jokes/Wnf-6fa0RQyT8DCXjDd83A",
-  value: "A vida de Chuck Norris é basicamente uma reinicialização corajosa do conceito de coragem."
+  value: {
+    us: "A Chuck Norris fact a day keeps his roundhouse kicks away.",
+    es: "Un hecho de Chuck Norris al día mantiene alejados sus patadas giratorias.",
+    br: "Um fato de Chuck Norris por dia mantém seus chutes redondos afastados."
+  }
 }
